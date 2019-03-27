@@ -9,6 +9,7 @@ export default class Calculator extends React.Component {
       unit: 'kg',
       bar: '20',
       target: 0,
+      targetPlates: [],
       plates: {
         kilo_zeroFive: true,
         kilo_one: true,
@@ -46,8 +47,7 @@ export default class Calculator extends React.Component {
         { label: '10lb', id: 'pound_ten', value: 10 },
         { label: '25lb', id: 'pound_twentyFive', value: 25 },
         { label: '45lb', id: 'pound_fortyFive', value: 45 }
-      ],
-      targetPlates: []
+      ]
     }
     this.handleInputChange = this.handleInputChange.bind(this)
   }
@@ -58,9 +58,11 @@ export default class Calculator extends React.Component {
     const name = target.name
     if (target.name === 'unit') {
       if (target.value === 'lb') {
-        this.setState({ target: this.toPound(this.state.target) })
+        const targetPlates = this.calculatePoundPlates()
+        this.setState({ targetPlates, target: this.toPound(this.state.target) })
       } else {
-        this.setState({ target: this.toKilo(this.state.target) })
+        const targetPlates = this.calculateKiloPlates()
+        this.setState({ targetPlates, target: this.toKilo(this.state.target) })
       }
     }
 
@@ -114,15 +116,9 @@ export default class Calculator extends React.Component {
   }
 
   render () {
-    var targetPlates = []
-    if (this.state.unit === 'kg') {
-      targetPlates = this.calculateKiloPlates()
-    } else {
-      targetPlates = this.calculatePoundPlates()
-    }
     return (
       <div>
-        {targetPlates.map((x) => { return (x + ', ') }) }
+        {this.state.targetPlates.map((x) => { return (x + ', ') }) }
         <br />
         <h2>Unit</h2>
         <label>

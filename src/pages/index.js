@@ -6,7 +6,7 @@ export default class Index extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      mode: 2
+      mode: 1
     }
   }
   changeMode (mode) {
