@@ -8,6 +8,7 @@
 // console.log(change(d,v).map((v)=>v/10));
 
 export function findKiloPlates (denoms, value, bar) {
+  console.log(denoms, value, bar);
   // Remove decimals by multiplying by 10
   denoms = denoms.map((x) => x * 10)
   value = (value - bar) * 10 / 2.0
@@ -43,5 +44,6 @@ export function findKiloPlates (denoms, value, bar) {
     changes.push(s[value] / 10)
     value = value - s[value]
   }
+  console.log(changes)
   return changes
 }

@@ -7,7 +7,7 @@ export default class Calculator extends React.Component {
     super(props)
     this.state = {
       unit: 'kg',
-      bar: '20',
+      bar: 'men',
       target: 0,
       targetPlates: [],
       plates: {
@@ -26,6 +26,7 @@ export default class Calculator extends React.Component {
         pound_five: true,
         pound_ten: true,
         pound_twentyFive: true,
+        pound_thirtyFive: true,
         pound_fortyFive: true
       },
       kiloPlatesDict: [
@@ -46,6 +47,7 @@ export default class Calculator extends React.Component {
         { label: '5lb', id: 'pound_five', value: 5 },
         { label: '10lb', id: 'pound_ten', value: 10 },
         { label: '25lb', id: 'pound_twentyFive', value: 25 },
+        { label: '35lb', id: 'pound_thirtyFive', value: 35 },
         { label: '45lb', id: 'pound_fortyFive', value: 45 }
       ]
     }
@@ -58,25 +60,22 @@ export default class Calculator extends React.Component {
     const name = target.name
     if (target.name === 'unit') {
       if (target.value === 'lb') {
-        const targetPlates = this.calculatePoundPlates()
-        this.setState({ targetPlates, target: this.toPound(this.state.target) })
+        this.setState({ target: this.toPound(this.state.target) })
       } else {
-        const targetPlates = this.calculateKiloPlates()
-        this.setState({ targetPlates, target: this.toKilo(this.state.target) })
+        this.setState({ target: this.toKilo(this.state.target) })
       }
     }
-
     if (target.type === 'checkbox') {
       this.setState({
         plates: {
           ...this.state.plates,
           [name]: value
         }
-      })
+      }, () => this.calculatePlates())
     } else {
       this.setState({
         [name]: value
-      })
+      }, () => this.calculatePlates())
     }
   }
 
@@ -105,14 +104,25 @@ export default class Calculator extends React.Component {
     return Math.round(target * 2.2046)
   }
   calculateKiloPlates () {
+    const bar = this.state.bar === 'men' ? 20 : 15
     const kiloPlateValues = (this.state.kiloPlatesDict.filter((item) => this.state.plates[item.id]).map((item) => item.value))
-    const targetPlates = (findKiloPlates(kiloPlateValues, this.state.target, this.state.bar))
+    const targetPlates = (findKiloPlates(kiloPlateValues, this.state.target, bar))
     return targetPlates
   }
   calculatePoundPlates () {
+    const bar = this.state.bar === 'men' ? 45 : 35
     const poundPlateValues = (this.state.poundPlatesDict.filter((item) => this.state.plates[item.id]).map((item) => item.value))
-    const targetPlates = (findPoundPlates(poundPlateValues, this.state.target, this.state.bar))
+    const targetPlates = (findPoundPlates(poundPlateValues, this.state.target, bar))
     return targetPlates
+  }
+  calculatePlates () {
+    if (this.state.unit === 'lb') {
+      const targetPlates = this.calculatePoundPlates()
+      this.setState({ targetPlates })
+    } else {
+      const targetPlates = this.calculateKiloPlates()
+      this.setState({ targetPlates })
+    }
   }
 
   render () {
@@ -171,8 +181,8 @@ export default class Calculator extends React.Component {
           <input
             type='radio'
             name='bar'
-            value={this.state.unit === 'kg' ? '20' : '45'}
-            checked={this.state.bar === '20' || this.state.bar === '45'}
+            value='men'
+            checked={this.state.bar === 'men'}
             onChange={this.handleInputChange}
           />
           {this.state.unit === 'kg' ? '20kg' : '45lb'}
@@ -182,8 +192,8 @@ export default class Calculator extends React.Component {
           <input
             type='radio'
             name='bar'
-            value={this.state.unit === 'kg' ? '15' : '35'}
-            checked={this.state.bar === '15' || this.state.bar === '35'}
+            value='women'
+            checked={this.state.bar === 'women'}
             onChange={this.handleInputChange}
           />
           {this.state.unit === 'kg' ? '15kg' : '35lb'}
