@@ -4,7 +4,6 @@ export default class ReverseCalculator extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      mode: 1,
       bar: 20,
       plates: {
         kg: { 0.5: 0, 1: 0, 1.5: 0, 2: 0, 2.5: 0, 5: 0, 10: 0, 15: 0, 20: 0, 25: 0 },
@@ -39,7 +38,7 @@ export default class ReverseCalculator extends React.Component {
       const count = entry[1]
       lb += weight * count
     })
-    const totalKg = this.state.bar + (kg + lb / 2046) * 2
+    const totalKg = this.state.bar + (kg + lb / 2.2046) * 2
     const totalLb = this.state.bar * 2.2046 + (kg * 2.2046 + lb) * 2
 
     return <div>
