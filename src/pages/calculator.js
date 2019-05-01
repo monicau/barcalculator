@@ -80,13 +80,16 @@ export default class Calculator extends React.Component {
   }
 
   renderCheckbox (item) {
-    return <label key={item.id}>{item.label}
-      <input
-        name={item.id}
-        type={'checkbox'}
-        checked={this.state.plates[item.id]}
-        onChange={this.handleInputChange} />
-    </label>
+    return <div key={item.id} className='checkbox'>
+      <label className={this.state.plates[item.id] ? 'checked' : ''}>
+        {item.label}
+        <input
+          name={item.id}
+          type={'checkbox'}
+          checked={this.state.plates[item.id]}
+          onChange={this.handleInputChange} />
+      </label>
+    </div>
   }
   renderRadios (item) {
     return <label key={item.id}>{item.label}
@@ -130,52 +133,52 @@ export default class Calculator extends React.Component {
       <div>
         {this.state.targetPlates.map((x) => { return (x + ', ') }) }
         <br />
-        <h2>Unit</h2>
-        <label>
-          <input
-            type='radio'
-            name='unit'
-            value='kg'
-            checked={this.state.unit === 'kg'}
-            onChange={this.handleInputChange}
-          />
-          kilo
-        </label>
-        &nbsp;
-        <label>
-          <input
-            type='radio'
-            name='unit'
-            value='lb'
-            checked={this.state.unit === 'lb'}
-            onChange={this.handleInputChange}
-          />
-          pound
-        </label>
-        <h2>Weight</h2>
-        <label>
-          <input
-            aria-label='Target weight in kilos'
-            name='target'
-            type='number'
-            value={this.state.unit === 'kg' ? this.state.target : this.toKilo(this.state.target)}
-            onChange={this.handleInputChange}
-            disabled={this.state.unit === 'lb'}
-          />
-          kg
-        </label>
-        &nbsp;
-        <label>
-          <input
-            aria-label='Target weight in pounds'
-            name='target'
-            type='number'
-            value={this.state.unit === 'lb' ? this.state.target : this.toPound(this.state.target)}
-            onChange={this.handleInputChange}
-            disabled={this.state.unit === 'kg'}
-          />
-          lb
-        </label>
+        <div className='weight-input'>
+          <div>
+            <label>
+              <input
+                aria-label='Target weight in kilos'
+                name='target'
+                type='number'
+                value={this.state.unit === 'kg' ? this.state.target : this.toKilo(this.state.target)}
+                onChange={this.handleInputChange}
+                disabled={this.state.unit === 'lb'}
+              />
+            </label>
+            <label>
+              <input
+                type='radio'
+                name='unit'
+                value='kg'
+                checked={this.state.unit === 'kg'}
+                onChange={this.handleInputChange}
+              />
+              kilo
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                aria-label='Target weight in pounds'
+                name='target'
+                type='number'
+                value={this.state.unit === 'lb' ? this.state.target : this.toPound(this.state.target)}
+                onChange={this.handleInputChange}
+                disabled={this.state.unit === 'kg'}
+              />
+            </label>
+            <label>
+              <input
+                type='radio'
+                name='unit'
+                value='lb'
+                checked={this.state.unit === 'lb'}
+                onChange={this.handleInputChange}
+              />
+              pound
+            </label>
+          </div>
+        </div>
         <h2>Barbell</h2>
         <label>
           <input

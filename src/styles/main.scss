@@ -1,0 +1,12 @@
+@import "_variables";
+@import "_typography";
+@import "_layout";
+@import "_input_text";
+@import "_input_checkbox";
+
+.container {
+  background: $bg;
+  width: 100%;
+  max-width: 60em;
+  margin: auto;
+}
