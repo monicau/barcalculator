@@ -1,6 +1,19 @@
+body {
+  margin: 0;
+}
+.container {
+  width: 100%;
+  max-width: 60em;
+  margin: auto;
+}
+
 .weight-input {
-    display: flex;
-    div {
-        width: 50%;
-    }
+  display: flex;
+  div {
+      padding: 0.5%;
+      width: 99%;
+  }
+}
+.list {
+  width: 250px;
 }

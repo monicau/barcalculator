@@ -12,7 +12,13 @@
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   },
   "dependencies": {
-    "gatsby": "^2.1.11",
+    "@material-ui/core": "next",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/styles": "next",
+    "gatsby": "^2.3.14",
+    "gatsby-plugin-material-ui": "next",
+    "gatsby-plugin-sass": "^2.0.11",
+    "node-sass": "^4.12.0",
     "react": "^16.8.2",
     "react-dom": "^16.8.2"
   },

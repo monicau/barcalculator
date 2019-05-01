@@ -1,6 +1,7 @@
 import React from 'react'
 import { findKiloPlates } from '../kilo'
 import { findPoundPlates } from '../pound'
+import TextField from '@material-ui/core/TextField'
 
 export default class Calculator extends React.Component {
   constructor (props) {
@@ -133,50 +134,55 @@ export default class Calculator extends React.Component {
       <div>
         {this.state.targetPlates.map((x) => { return (x + ', ') }) }
         <br />
+        <label>
+          <input
+            type='radio'
+            name='unit'
+            value='kg'
+            checked={this.state.unit === 'kg'}
+            onChange={this.handleInputChange}
+          />
+          kilo
+        </label>
+        <label>
+          <input
+            type='radio'
+            name='unit'
+            value='lb'
+            checked={this.state.unit === 'lb'}
+            onChange={this.handleInputChange}
+          />
+          pound
+        </label>
+        <br />
         <div className='weight-input'>
           <div>
-            <label>
-              <input
-                aria-label='Target weight in kilos'
-                name='target'
-                type='number'
-                value={this.state.unit === 'kg' ? this.state.target : this.toKilo(this.state.target)}
-                onChange={this.handleInputChange}
-                disabled={this.state.unit === 'lb'}
-              />
-            </label>
-            <label>
-              <input
-                type='radio'
-                name='unit'
-                value='kg'
-                checked={this.state.unit === 'kg'}
-                onChange={this.handleInputChange}
-              />
-              kilo
-            </label>
+            <TextField
+              aria-label='Target weight in kilos'
+              label='kilograms'
+              type='number'
+              name='target'
+              value={this.state.unit === 'kg' ? this.state.target : this.toKilo(this.state.target)}
+              onChange={this.handleInputChange}
+              disabled={this.state.unit === 'lb'}
+              variant='outlined'
+            />
+
           </div>
           <div>
             <label>
-              <input
+              <TextField
                 aria-label='Target weight in pounds'
+                label='pounds'
                 name='target'
                 type='number'
                 value={this.state.unit === 'lb' ? this.state.target : this.toPound(this.state.target)}
                 onChange={this.handleInputChange}
                 disabled={this.state.unit === 'kg'}
+                variant='outlined'
               />
             </label>
-            <label>
-              <input
-                type='radio'
-                name='unit'
-                value='lb'
-                checked={this.state.unit === 'lb'}
-                onChange={this.handleInputChange}
-              />
-              pound
-            </label>
+
           </div>
         </div>
         <h2>Barbell</h2>
