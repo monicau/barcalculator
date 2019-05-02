@@ -43,5 +43,6 @@ export function findPoundPlates (denoms, value, bar) {
     changes.push(s[value] / 10)
     value = value - s[value]
   }
+  changes.sort((a, b) => b - a)
   return changes
 }

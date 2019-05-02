@@ -44,6 +44,6 @@ export function findKiloPlates (denoms, value, bar) {
     changes.push(s[value] / 10)
     value = value - s[value]
   }
-  console.log(changes)
+  changes.sort((a, b) => b - a)
   return changes
 }

@@ -1,0 +1,116 @@
+#barbell-diagram {
+  display: flex;
+  width: 100%;
+  height: 200px;
+  #handle-area {
+    width: 20%;
+    display: flex;
+    &>div:first-child {
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      div {
+        flex-grow: 10;
+      }
+      #handle {
+        background: gray;
+        &.men {
+          flex-grow: 5;
+        }
+        &.women {
+          flex-grow: 3.5;
+        }
+      }
+    }
+    &>div:last-child {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      div {
+        flex-grow: 1;
+        &:nth-child(2) {
+          flex-grow: 2;
+          background: gray;
+        }
+      }
+    }
+  }
+  #loading-area {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    &>div { // plate container
+      text-align: center;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      font-size: 2em;
+      border-radius: 5px;
+      &.blue {
+        background: blue;
+        border-right: 5px solid rgba(white, 0.4);
+      }
+      &.red {
+        background: red;
+        border-right: 5px solid rgba(white, 0.3);
+      }
+      &.yellow {
+        background: yellow;
+        border-right: 5px solid rgba(gray, 0.25);
+        border-bottom: 1px solid rgba(gray, 0.25);
+        border-top: 1px solid rgba(gray, 0.25);
+        color: black;
+      }
+      &.green {
+        background: green;
+        border-right: 5px solid rgba(white, 0.2);
+      }
+      &.white {
+        background: rgba(gray, 0.25);
+        color: black;
+      }
+      &.black {
+        background: black;
+        border: 1px solid rgba(white, 0.25)
+      }
+      span {
+        display: block;
+        font-size: 1.25rem;
+        opacity: 0.75;
+      }
+      &.xl {
+        width: 80px;
+      }
+      &.lg {
+        width: 75px;
+      }
+      &.md {
+        width: 50px;
+      }
+      &.sm {
+        width: 50px;
+        height: 80%;
+        font-size: 1.5rem;
+        span { font-size: 1rem }
+      }
+      &.xs {
+        width: 40px;
+        height: 60%;
+        font-size: 1.25rem;
+        span { font-size: 1rem }
+      }
+      &.remainder-bar {
+        flex-grow: 10;
+        background: gray;
+        height: 25%;
+        border-radius: 0;
+      }
+      &.remainder-space {
+        width: 50px;
+      }
+    }
+  }
+}

@@ -2,6 +2,9 @@ import React from 'react'
 import { findKiloPlates } from '../kilo'
 import { findPoundPlates } from '../pound'
 import TextField from '@material-ui/core/TextField'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from '@material-ui/core/Radio'
+import Checkbox from '@material-ui/core/Checkbox';
 
 export default class Calculator extends React.Component {
   constructor (props) {
@@ -9,7 +12,8 @@ export default class Calculator extends React.Component {
     this.state = {
       unit: 'kg',
       bar: 'men',
-      target: 0,
+      target_kilo: 0,
+      target_lb: 0,
       targetPlates: [],
       plates: {
         kilo_zeroFive: true,
@@ -59,12 +63,10 @@ export default class Calculator extends React.Component {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    if (target.name === 'unit') {
-      if (target.value === 'lb') {
-        this.setState({ target: this.toPound(this.state.target) })
-      } else {
-        this.setState({ target: this.toKilo(this.state.target) })
-      }
+    if (target.name.includes('target') && target.name.includes('kilo')) {
+      this.setState({ target_lb: this.toPound(value) })
+    } else if (target.name.includes('target') && target.name.includes('lb')) {
+      this.setState({ target_kilo: this.toKilo(value) })
     }
     if (target.type === 'checkbox') {
       this.setState({
@@ -79,19 +81,22 @@ export default class Calculator extends React.Component {
       }, () => this.calculatePlates())
     }
   }
-
   renderCheckbox (item) {
-    return <div key={item.id} className='checkbox'>
-      <label className={this.state.plates[item.id] ? 'checked' : ''}>
-        {item.label}
-        <input
+    return <div key={item.id}>
+      <FormControlLabel
+        value='bottom'
+        control={<Checkbox
+          color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
           name={item.id}
-          type={'checkbox'}
           checked={this.state.plates[item.id]}
-          onChange={this.handleInputChange} />
-      </label>
+          onChange={this.handleInputChange}
+        />}
+        label={item.label}
+        labelPlacement='bottom'
+      />
     </div>
   }
+
   renderRadios (item) {
     return <label key={item.id}>{item.label}
       <input
@@ -110,13 +115,13 @@ export default class Calculator extends React.Component {
   calculateKiloPlates () {
     const bar = this.state.bar === 'men' ? 20 : 15
     const kiloPlateValues = (this.state.kiloPlatesDict.filter((item) => this.state.plates[item.id]).map((item) => item.value))
-    const targetPlates = (findKiloPlates(kiloPlateValues, this.state.target, bar))
+    const targetPlates = (findKiloPlates(kiloPlateValues, this.state.target_kilo, bar))
     return targetPlates
   }
   calculatePoundPlates () {
     const bar = this.state.bar === 'men' ? 45 : 35
     const poundPlateValues = (this.state.poundPlatesDict.filter((item) => this.state.plates[item.id]).map((item) => item.value))
-    const targetPlates = (findPoundPlates(poundPlateValues, this.state.target, bar))
+    const targetPlates = (findPoundPlates(poundPlateValues, this.state.target_lb, bar))
     return targetPlates
   }
   calculatePlates () {
@@ -129,31 +134,99 @@ export default class Calculator extends React.Component {
     }
   }
 
+  renderPlate (value, index) {
+    const xl = this.state.unit === 'kg' ? [25] : [45]
+    const lg = this.state.unit === 'kg' ? [20, 15] : [35, 25]
+    const md = this.state.unit === 'kg' ? [10] : [10]
+    const sm = this.state.unit === 'kg' ? [5] : [5]
+    const xs = this.state.unit === 'kg' ? [2.5, 2, 1.5, 1, 0.5] : [2.5, 1]
+    const red = this.state.unit === 'kg' ? [25, 2.5] : [55]
+    const blue = this.state.unit === 'kg' ? [20, 2] : [45]
+    const yellow = this.state.unit === 'kg' ? [15, 1.5] : [35]
+    const green = this.state.unit === 'kg' ? [10, 1] : [25]
+    const white = this.state.unit === 'kg' ? [5, 0.5] : []
+    const black = this.state.unit === 'kg' ? [] : [10, 5, 2.5, 1]
+
+    let size = ''
+    let colour = ''
+
+    if (xl.includes(value)) {
+      size = 'xl'
+    } else if (lg.includes(value)) {
+      size = 'lg'
+    } else if (md.includes(value)) {
+      size = 'md'
+    } else if (sm.includes(value)) {
+      size = 'sm'
+    } else if (xs.includes(value)) {
+      size = 'xs'
+    }
+    if (red.includes(value)) {
+      colour = 'red'
+    } else if (blue.includes(value)) {
+      colour = 'blue'
+    } else if (yellow.includes(value)) {
+      colour = 'yellow'
+    } else if (green.includes(value)) {
+      colour = 'green'
+    } else if (white.includes(value)) {
+      colour = 'white'
+    } else if (black.includes(value)) {
+      colour = 'black'
+    }
+
+    return <div className={`${size} ${colour}`} key={index}>
+      {value}<span>{this.state.unit}</span>
+    </div>
+  }
+
   render () {
     return (
       <div>
         {this.state.targetPlates.map((x) => { return (x + ', ') }) }
-        <br />
-        <label>
-          <input
-            type='radio'
-            name='unit'
-            value='kg'
-            checked={this.state.unit === 'kg'}
-            onChange={this.handleInputChange}
+        <div style={{ textAlign: 'right' }}>
+          <FormControlLabel
+            value='bottom'
+            control={<Radio
+              name='unit'
+              value='kg'
+              color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
+              onChange={this.handleInputChange}
+              checked={this.state.unit === 'kg'}
+            />}
+            label='kilo'
+            labelPlacement='bottom'
           />
-          kilo
-        </label>
-        <label>
-          <input
-            type='radio'
-            name='unit'
-            value='lb'
-            checked={this.state.unit === 'lb'}
-            onChange={this.handleInputChange}
+          <FormControlLabel
+            value='bottom'
+            control={<Radio
+              name='unit'
+              value='lb'
+              color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
+              onChange={this.handleInputChange}
+              checked={this.state.unit === 'lb'}
+            />}
+            label='pound'
+            labelPlacement='bottom'
           />
-          pound
-        </label>
+        </div>
+        <div id='barbell-diagram'>
+          <div id='handle-area'>
+            <div>
+              <div />
+              <div id='handle' className={this.state.bar} />
+              <div />
+            </div>
+            <div>
+              <div /><div /><div />
+            </div>
+          </div>
+          <div id='loading-area'>
+            {this.state.targetPlates.map((x, i) => this.renderPlate(x, i))}
+            <div className='remainder-bar' />
+            <div className='remainder-space' />
+          </div>
+        </div>
         <br />
         <div className='weight-input'>
           <div>
@@ -161,24 +234,23 @@ export default class Calculator extends React.Component {
               aria-label='Target weight in kilos'
               label='kilograms'
               type='number'
-              name='target'
-              value={this.state.unit === 'kg' ? this.state.target : this.toKilo(this.state.target)}
+              name='target_kilo'
+              value={this.state.target_kilo}
               onChange={this.handleInputChange}
-              disabled={this.state.unit === 'lb'}
+              // disabled={this.state.unit === 'lb'}
               variant='outlined'
             />
-
           </div>
           <div>
             <label>
               <TextField
                 aria-label='Target weight in pounds'
                 label='pounds'
-                name='target'
+                name='target_lb'
                 type='number'
-                value={this.state.unit === 'lb' ? this.state.target : this.toPound(this.state.target)}
+                value={this.state.target_lb}
                 onChange={this.handleInputChange}
-                disabled={this.state.unit === 'kg'}
+                // disabled={this.state.unit === 'kg'}
                 variant='outlined'
               />
             </label>
@@ -186,32 +258,37 @@ export default class Calculator extends React.Component {
           </div>
         </div>
         <h2>Barbell</h2>
-        <label>
-          <input
-            type='radio'
+        <FormControlLabel
+          value='bottom'
+          control={<Radio
             name='bar'
             value='men'
-            checked={this.state.bar === 'men'}
+            color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
             onChange={this.handleInputChange}
-          />
-          {this.state.unit === 'kg' ? '20kg' : '45lb'}
-        </label>
+            checked={this.state.bar === 'men'}
+          />}
+          label={this.state.unit === 'kg' ? '20kg' : '45lb'}
+          labelPlacement='bottom'
+        />
         &nbsp;
-        <label>
-          <input
-            type='radio'
+        <FormControlLabel
+          value='bottom'
+          control={<Radio
             name='bar'
             value='women'
-            checked={this.state.bar === 'women'}
+            color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
             onChange={this.handleInputChange}
-          />
-          {this.state.unit === 'kg' ? '15kg' : '35lb'}
-        </label>
-        <h2>Plates</h2>
-        {
-          this.state.unit === 'kg' ? this.state.kiloPlatesDict.map((item) => this.renderCheckbox(item)) : this.state.poundPlatesDict.map((item) => this.renderCheckbox(item))
-        }
-
+            checked={this.state.bar === 'women'}
+          />}
+          label={this.state.unit === 'kg' ? '15kg' : '35lb'}
+          labelPlacement='bottom'
+        />
+        <h2>Available Plates</h2>
+        <div className='available-plates'>
+          {
+            this.state.unit === 'kg' ? this.state.kiloPlatesDict.map((item) => this.renderCheckbox(item)) : this.state.poundPlatesDict.map((item) => this.renderCheckbox(item))
+          }
+        </div>
       </div>
     )
   }
