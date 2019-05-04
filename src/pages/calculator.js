@@ -147,8 +147,8 @@ export default class Calculator extends React.Component {
     const white = this.state.unit === 'kg' ? [5, 0.5] : []
     const black = this.state.unit === 'kg' ? [] : [10, 5, 2.5, 1]
 
-    let size = ''
-    let colour = ''
+    let size = 'xl'
+    let colour = 'white'
 
     if (xl.includes(value)) {
       size = 'xl'

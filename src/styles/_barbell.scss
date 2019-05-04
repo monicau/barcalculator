@@ -47,7 +47,7 @@
       flex-direction: column;
       justify-content: center;
       height: 100%;
-      font-size: 2em;
+      font-size: 1.75em;
       border-radius: 5px;
       &.blue {
         background: blue;
@@ -82,16 +82,16 @@
         opacity: 0.75;
       }
       &.xl {
-        width: 80px;
+        width: 50px;
       }
       &.lg {
-        width: 75px;
+        width: 45px;
       }
       &.md {
-        width: 50px;
+        width: 40px;
       }
       &.sm {
-        width: 50px;
+        width: 40px;
         height: 80%;
         font-size: 1.5rem;
         span { font-size: 1rem }
