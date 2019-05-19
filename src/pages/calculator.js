@@ -4,7 +4,10 @@ import { findPoundPlates } from '../pound'
 import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
-import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox'
+import Switch from '@material-ui/core/Switch'
+import { withStyles } from '@material-ui/core/styles'
+import purple from '@material-ui/core/colors/purple'
 
 export default class Calculator extends React.Component {
   constructor (props) {
@@ -57,6 +60,7 @@ export default class Calculator extends React.Component {
       ]
     }
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.toggleUnit = this.toggleUnit.bind(this)
   }
 
   handleInputChange (event) {
@@ -180,35 +184,41 @@ export default class Calculator extends React.Component {
     </div>
   }
 
+  toggleUnit () {
+    const unit = this.state.unit === 'kg' ? 'lb' : 'kg'
+    this.setState({ unit })
+  }
+
   render () {
+    const PurpleSwitch = withStyles({
+      switchBase: {
+        color: purple,
+        '&$checked': {
+          color: purple,
+        },
+        '&$checked + $track': {
+          backgroundColor: purple,
+        },
+      },
+      checked: {},
+      track: {},
+    })(Switch);
     return (
       <div>
         {this.state.targetPlates.map((x) => { return (x + ', ') }) }
         <div style={{ textAlign: 'right' }}>
-          <FormControlLabel
-            value='bottom'
-            control={<Radio
-              name='unit'
-              value='kg'
-              color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
-              onChange={this.handleInputChange}
-              checked={this.state.unit === 'kg'}
-            />}
-            label='kilo'
-            labelPlacement='bottom'
+          <PurpleSwitch
+            checked={this.state.unit==='kg'}
+            value="checkedA"
           />
-          <FormControlLabel
-            value='bottom'
-            control={<Radio
-              name='unit'
-              value='lb'
-              color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
-              onChange={this.handleInputChange}
-              checked={this.state.unit === 'lb'}
-            />}
-            label='pound'
-            labelPlacement='bottom'
-          />
+          
+          lb
+          <Switch
+            checked={this.state.unit === 'kg'}
+            onChange={this.toggleUnit}
+            value='checkedB'
+            color='primary'
+          />kg
         </div>
         <div id='barbell-diagram'>
           <div id='handle-area'>
