@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { findKiloPlates } from '../kilo'
 import { findPoundPlates } from '../pound'
 import TextField from '@material-ui/core/TextField'
@@ -7,93 +7,84 @@ import Radio from '@material-ui/core/Radio'
 import Checkbox from '@material-ui/core/Checkbox'
 import Switch from '@material-ui/core/Switch'
 import { withStyles } from '@material-ui/core/styles'
-import purple from '@material-ui/core/colors/purple'
+import pink from '@material-ui/core/colors/pink'
+import indigo from '@material-ui/core/colors/indigo'
 
-export default class Calculator extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      unit: 'kg',
-      bar: 'men',
-      target_kilo: 0,
-      target_lb: 0,
-      targetPlates: [],
-      plates: {
-        kilo_zeroFive: true,
-        kilo_one: true,
-        kilo_oneFive: true,
-        kilo_two: true,
-        kilo_twoFive: true,
-        kilo_five: true,
-        kilo_ten: true,
-        kilo_fifteen: true,
-        kilo_twenty: true,
-        kilo_twentyFive: true,
-        pound_one: true,
-        pound_twoFive: true,
-        pound_five: true,
-        pound_ten: true,
-        pound_twentyFive: true,
-        pound_thirtyFive: true,
-        pound_fortyFive: true
-      },
-      kiloPlatesDict: [
-        { label: '0.5kg', id: 'kilo_zeroFive', value: 0.5 },
-        { label: '1kg', id: 'kilo_one', value: 1 },
-        { label: '1.5kg', id: 'kilo_oneFive', value: 1.5 },
-        { label: '2kg', id: 'kilo_two', value: 2 },
-        { label: '2.5kg', id: 'kilo_twoFive', value: 2.5 },
-        { label: '5kg', id: 'kilo_five', value: 5 },
-        { label: '10kg', id: 'kilo_ten', value: 10 },
-        { label: '15kg', id: 'kilo_fifteen', value: 15 },
-        { label: '20kg', id: 'kilo_twenty', value: 20 },
-        { label: '25kg', id: 'kilo_twentyFive', value: 25 }
-      ],
-      poundPlatesDict: [
-        { label: '1lb', id: 'pound_one', value: 1 },
-        { label: '2.5lb', id: 'pound_twoFive', value: 2.5 },
-        { label: '5lb', id: 'pound_five', value: 5 },
-        { label: '10lb', id: 'pound_ten', value: 10 },
-        { label: '25lb', id: 'pound_twentyFive', value: 25 },
-        { label: '35lb', id: 'pound_thirtyFive', value: 35 },
-        { label: '45lb', id: 'pound_fortyFive', value: 45 }
-      ]
-    }
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.toggleUnit = this.toggleUnit.bind(this)
+const Calculator = (props) => {
+  const initialPlates = {
+    kilo_zeroFive: true,
+    kilo_one: true,
+    kilo_oneFive: true,
+    kilo_two: true,
+    kilo_twoFive: true,
+    kilo_five: true,
+    kilo_ten: true,
+    kilo_fifteen: true,
+    kilo_twenty: true,
+    kilo_twentyFive: true,
+    pound_one: true,
+    pound_twoFive: true,
+    pound_five: true,
+    pound_ten: true,
+    pound_twentyFive: true,
+    pound_thirtyFive: true,
+    pound_fortyFive: true
   }
+  const kiloPlatesDict = [
+    { label: '0.5kg', id: 'kilo_zeroFive', value: 0.5 },
+    { label: '1kg', id: 'kilo_one', value: 1 },
+    { label: '1.5kg', id: 'kilo_oneFive', value: 1.5 },
+    { label: '2kg', id: 'kilo_two', value: 2 },
+    { label: '2.5kg', id: 'kilo_twoFive', value: 2.5 },
+    { label: '5kg', id: 'kilo_five', value: 5 },
+    { label: '10kg', id: 'kilo_ten', value: 10 },
+    { label: '15kg', id: 'kilo_fifteen', value: 15 },
+    { label: '20kg', id: 'kilo_twenty', value: 20 },
+    { label: '25kg', id: 'kilo_twentyFive', value: 25 }
+  ]
+  const poundPlatesDict = [
+    { label: '1lb', id: 'pound_one', value: 1 },
+    { label: '2.5lb', id: 'pound_twoFive', value: 2.5 },
+    { label: '5lb', id: 'pound_five', value: 5 },
+    { label: '10lb', id: 'pound_ten', value: 10 },
+    { label: '25lb', id: 'pound_twentyFive', value: 25 },
+    { label: '35lb', id: 'pound_thirtyFive', value: 35 },
+    { label: '45lb', id: 'pound_fortyFive', value: 45 }
+  ]
+  // Set states
+  const [ unit, setUnit ] = useState('kg')
+  const [ bar, setBar ] = useState('men')
+  const [ targetKilo, setTargetKilo ] = useState('0')
+  const [ targetLb, setTargetLb ] = useState('0')
+  const [ targetPlates, setTargetPlates ] = useState([])
+  const [ plates, setPlates ] = useState(initialPlates)
 
-  handleInputChange (event) {
+
+  const handleInputChange = (event) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
     if (target.name.includes('target') && target.name.includes('kilo')) {
-      this.setState({ target_lb: this.toPound(value) })
+      setTargetLb(toPound(value))
     } else if (target.name.includes('target') && target.name.includes('lb')) {
-      this.setState({ target_kilo: this.toKilo(value) })
+      setTargetKilo(toKilo(value))
     }
     if (target.type === 'checkbox') {
-      this.setState({
-        plates: {
-          ...this.state.plates,
-          [name]: value
-        }
-      }, () => this.calculatePlates())
-    } else {
-      this.setState({
+      setPlates({
+        ...plates,
         [name]: value
-      }, () => this.calculatePlates())
+      })
     }
   }
-  renderCheckbox (item) {
+  const renderCheckbox = (item) => {
     return <div key={item.id}>
       <FormControlLabel
         value='bottom'
         control={<Checkbox
-          color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
+          color={unit === 'kg' ? 'primary' : 'secondary'}
           name={item.id}
-          checked={this.state.plates[item.id]}
-          onChange={this.handleInputChange}
+          checked={plates[item.id]}
+          onChange={handleInputChange}
         />}
         label={item.label}
         labelPlacement='bottom'
@@ -101,55 +92,56 @@ export default class Calculator extends React.Component {
     </div>
   }
 
-  renderRadios (item) {
-    return <label key={item.id}>{item.label}
-      <input
-        name={item.id}
-        type={'radio'}
-        checked={this.state.plates[item.id]}
-        onChange={this.handleInputChange} />
-    </label>
-  }
-  toKilo (target) {
+  // const renderRadios = (item) => {
+  //   return <label key={item.id}>{item.label}
+  //     <input
+  //       name={item.id}
+  //       type={'radio'}
+  //       checked={plates[item.id]}
+  //       onChange={this.handleInputChange} />
+  //   </label>
+  // }
+  const toKilo = (target) => {
     return Math.round(target / 2.2046)
   }
-  toPound (target) {
+  const toPound = (target) => {
     return Math.round(target * 2.2046)
   }
-  calculateKiloPlates () {
-    const bar = this.state.bar === 'men' ? 20 : 15
-    const kiloPlateValues = (this.state.kiloPlatesDict.filter((item) => this.state.plates[item.id]).map((item) => item.value))
-    const targetPlates = (findKiloPlates(kiloPlateValues, this.state.target_kilo, bar))
-    return targetPlates
+  const calculateKiloPlates = () => {
+    const barWeight = bar === 'men' ? 20 : 15
+    const kiloPlateValues = (kiloPlatesDict.filter((item) => plates[item.id]).map((item) => item.value))
+    const targetPlatesResult = (findKiloPlates(kiloPlateValues, targetKilo, barWeight))
+    return targetPlatesResult
   }
-  calculatePoundPlates () {
-    const bar = this.state.bar === 'men' ? 45 : 35
-    const poundPlateValues = (this.state.poundPlatesDict.filter((item) => this.state.plates[item.id]).map((item) => item.value))
-    const targetPlates = (findPoundPlates(poundPlateValues, this.state.target_lb, bar))
-    return targetPlates
+  const calculatePoundPlates = () => {
+    const barWeight = bar === 'men' ? 45 : 35
+    const poundPlateValues = (poundPlatesDict.filter((item) => plates[item.id]).map((item) => item.value))
+    const targetPlatesResult = (findPoundPlates(poundPlateValues, targetLb, barWeight))
+    return targetPlatesResult
   }
-  calculatePlates () {
-    if (this.state.unit === 'lb') {
-      const targetPlates = this.calculatePoundPlates()
-      this.setState({ targetPlates })
+  useEffect(() => {
+    console.log('useeffect')
+    let targetPlatesResult = []
+    if (unit === 'lb') {
+      targetPlatesResult = calculatePoundPlates()
     } else {
-      const targetPlates = this.calculateKiloPlates()
-      this.setState({ targetPlates })
+      targetPlatesResult = calculateKiloPlates()
     }
-  }
+    setTargetPlates(targetPlatesResult)
+  }, [targetKilo, targetLb, plates, unit, bar])
 
-  renderPlate (value, index) {
-    const xl = this.state.unit === 'kg' ? [25] : [45]
-    const lg = this.state.unit === 'kg' ? [20, 15] : [35, 25]
-    const md = this.state.unit === 'kg' ? [10] : [10]
-    const sm = this.state.unit === 'kg' ? [5] : [5]
-    const xs = this.state.unit === 'kg' ? [2.5, 2, 1.5, 1, 0.5] : [2.5, 1]
-    const red = this.state.unit === 'kg' ? [25, 2.5] : [55]
-    const blue = this.state.unit === 'kg' ? [20, 2] : [45]
-    const yellow = this.state.unit === 'kg' ? [15, 1.5] : [35]
-    const green = this.state.unit === 'kg' ? [10, 1] : [25]
-    const white = this.state.unit === 'kg' ? [5, 0.5] : []
-    const black = this.state.unit === 'kg' ? [] : [10, 5, 2.5, 1]
+  const renderPlate = (value, index) => {
+    const xl = unit === 'kg' ? [25] : [45]
+    const lg = unit === 'kg' ? [20, 15] : [35, 25]
+    const md = unit === 'kg' ? [10] : [10]
+    const sm = unit === 'kg' ? [5] : [5]
+    const xs = unit === 'kg' ? [2.5, 2, 1.5, 1, 0.5] : [2.5, 1]
+    const red = unit === 'kg' ? [25, 2.5] : [55]
+    const blue = unit === 'kg' ? [20, 2] : [45]
+    const yellow = unit === 'kg' ? [15, 1.5] : [35]
+    const green = unit === 'kg' ? [10, 1] : [25]
+    const white = unit === 'kg' ? [5, 0.5] : []
+    const black = unit === 'kg' ? [] : [10, 5, 2.5, 1]
 
     let size = 'xl'
     let colour = 'white'
@@ -180,126 +172,118 @@ export default class Calculator extends React.Component {
     }
 
     return <div className={`${size} ${colour}`} key={index}>
-      {value}<span>{this.state.unit}</span>
+      {value}<span>{unit}</span>
     </div>
   }
 
-  toggleUnit () {
-    const unit = this.state.unit === 'kg' ? 'lb' : 'kg'
-    this.setState({ unit })
+  const toggleUnit = () => {
+    const newUnit = unit === 'kg' ? 'lb' : 'kg'
+    setUnit(newUnit)
   }
 
-  render () {
-    const PurpleSwitch = withStyles({
-      switchBase: {
-        color: purple,
-        '&$checked': {
-          color: purple,
-        },
-        '&$checked + $track': {
-          backgroundColor: purple,
-        },
+  const CustomSwitch = withStyles({
+    switchBase: {
+      color: pink[500],
+      '&$checked': {
+        color: indigo[500]
       },
-      checked: {},
-      track: {},
-    })(Switch);
-    return (
-      <div>
-        {this.state.targetPlates.map((x) => { return (x + ', ') }) }
-        <div style={{ textAlign: 'right' }}>
-          <PurpleSwitch
-            checked={this.state.unit==='kg'}
-            value="checkedA"
-          />
-          
-          lb
-          <Switch
-            checked={this.state.unit === 'kg'}
-            onChange={this.toggleUnit}
-            value='checkedB'
-            color='primary'
-          />kg
-        </div>
-        <div id='barbell-diagram'>
-          <div id='handle-area'>
-            <div>
-              <div />
-              <div id='handle' className={this.state.bar} />
-              <div />
-            </div>
-            <div>
-              <div /><div /><div />
-            </div>
-          </div>
-          <div id='loading-area'>
-            {this.state.targetPlates.map((x, i) => this.renderPlate(x, i))}
-            <div className='remainder-bar' />
-            <div className='remainder-space' />
-          </div>
-        </div>
-        <br />
-        <div className='weight-input'>
-          <div>
-            <TextField
-              aria-label='Target weight in kilos'
-              label='kilograms'
-              type='number'
-              name='target_kilo'
-              value={this.state.target_kilo}
-              onChange={this.handleInputChange}
-              // disabled={this.state.unit === 'lb'}
-              variant='outlined'
-            />
-          </div>
-          <div>
-            <label>
-              <TextField
-                aria-label='Target weight in pounds'
-                label='pounds'
-                name='target_lb'
-                type='number'
-                value={this.state.target_lb}
-                onChange={this.handleInputChange}
-                // disabled={this.state.unit === 'kg'}
-                variant='outlined'
-              />
-            </label>
+      '&$checked + $track': {
+        backgroundColor: indigo[500]
+      }
+    },
+    checked: {},
+    track: { backgroundColor: pink[500] }
+  })(Switch)
 
+  return (
+    <div>
+      <div style={{ textAlign: 'right' }}>
+       lb
+        <CustomSwitch
+          checked={unit === 'kg'}
+          onChange={toggleUnit}
+          value={unit}
+        />
+        kg
+      </div>
+      <div id='barbell-diagram'>
+        <div id='handle-area'>
+          <div>
+            <div />
+            <div id='handle' className={bar} />
+            <div />
+          </div>
+          <div>
+            <div /><div /><div />
           </div>
         </div>
-        <h2>Barbell</h2>
-        <FormControlLabel
-          value='bottom'
-          control={<Radio
-            name='bar'
-            value='men'
-            color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
-            onChange={this.handleInputChange}
-            checked={this.state.bar === 'men'}
-          />}
-          label={this.state.unit === 'kg' ? '20kg' : '45lb'}
-          labelPlacement='bottom'
-        />
-        &nbsp;
-        <FormControlLabel
-          value='bottom'
-          control={<Radio
-            name='bar'
-            value='women'
-            color={this.state.unit === 'kg' ? 'primary' : 'secondary'}
-            onChange={this.handleInputChange}
-            checked={this.state.bar === 'women'}
-          />}
-          label={this.state.unit === 'kg' ? '15kg' : '35lb'}
-          labelPlacement='bottom'
-        />
-        <h2>Available Plates</h2>
-        <div className='available-plates'>
-          {
-            this.state.unit === 'kg' ? this.state.kiloPlatesDict.map((item) => this.renderCheckbox(item)) : this.state.poundPlatesDict.map((item) => this.renderCheckbox(item))
-          }
+        <div id='loading-area'>
+          {targetPlates.map((x, i) => renderPlate(x, i))}
+          <div className='remainder-bar' />
+          <div className='remainder-space' />
         </div>
       </div>
-    )
-  }
+      <br />
+      <div className='weight-input'>
+        <div>
+          <TextField
+            aria-label='Target weight in kilos'
+            label='kilograms'
+            type='number'
+            name='targetKilo'
+            value={targetKilo}
+            onChange={(event) => { setTargetKilo(event.target.value); setTargetLb(toPound(event.target.value)) }}
+            variant='outlined'
+          />
+        </div>
+        <div>
+          <label>
+            <TextField
+              aria-label='Target weight in pounds'
+              label='pounds'
+              name='targetLb'
+              type='number'
+              value={targetLb}
+              onChange={(event) => { setTargetLb(event.target.value); setTargetKilo(toKilo(event.target.value)) }}
+              variant='outlined'
+            />
+          </label>
+
+        </div>
+      </div>
+      <h2>Barbell</h2>
+      <FormControlLabel
+        value='bottom'
+        control={<Radio
+          name='bar'
+          value='men'
+          color={unit === 'kg' ? 'primary' : 'secondary'}
+          onChange={() => setBar('men')}
+          checked={bar === 'men'}
+        />}
+        label={unit === 'kg' ? '20kg' : '45lb'}
+        labelPlacement='bottom'
+      />
+      &nbsp;
+      <FormControlLabel
+        value='bottom'
+        control={<Radio
+          name='bar'
+          value='women'
+          color={unit === 'kg' ? 'primary' : 'secondary'}
+          onChange={() => setBar('women')}
+          checked={bar === 'women'}
+        />}
+        label={unit === 'kg' ? '15kg' : '35lb'}
+        labelPlacement='bottom'
+      />
+      <h2>Available Plates</h2>
+      <div className='available-plates'>
+        {
+          unit === 'kg' ? kiloPlatesDict.map((item) => renderCheckbox(item)) : poundPlatesDict.map((item) => renderCheckbox(item))
+        }
+      </div>
+    </div>
+  )
 }
+export default Calculator
