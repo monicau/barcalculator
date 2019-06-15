@@ -91,16 +91,6 @@ const Calculator = (props) => {
       />
     </div>
   }
-
-  // const renderRadios = (item) => {
-  //   return <label key={item.id}>{item.label}
-  //     <input
-  //       name={item.id}
-  //       type={'radio'}
-  //       checked={plates[item.id]}
-  //       onChange={this.handleInputChange} />
-  //   </label>
-  // }
   const toKilo = (target) => {
     return Math.round(target / 2.2046)
   }
@@ -251,7 +241,7 @@ const Calculator = (props) => {
 
         </div>
       </div>
-      <h2>Barbell</h2>
+      <h1>Barbell</h1>
       <FormControlLabel
         value='bottom'
         control={<Radio
@@ -277,7 +267,7 @@ const Calculator = (props) => {
         label={unit === 'kg' ? '15kg' : '35lb'}
         labelPlacement='bottom'
       />
-      <h2>Available Plates</h2>
+      <h1>Available Plates</h1>
       <div className='available-plates'>
         {
           unit === 'kg' ? kiloPlatesDict.map((item) => renderCheckbox(item)) : poundPlatesDict.map((item) => renderCheckbox(item))

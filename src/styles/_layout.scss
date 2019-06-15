@@ -5,6 +5,7 @@ body {
   width: 100%;
   max-width: 60em;
   margin: auto;
+  padding-bottom: 5em;
 }
 
 .weight-input {
@@ -20,4 +21,10 @@ body {
 .available-plates {
   display: flex;
   flex-wrap: wrap;
+}
+.bottomNav {
+  box-shadow: 0px 0px 10px 0px rgba(224,224,224,1);
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
