@@ -13,7 +13,7 @@
         flex-grow: 10;
       }
       #handle {
-        background: $bar;
+        background: lighten($bar, 7);
         &.men {
           flex-grow: 5;
         }

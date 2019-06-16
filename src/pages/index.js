@@ -11,8 +11,10 @@ const Index = (props) => {
   const [ mode, setMode ] = useState(1)
 
   return (
-    <div className='container'>
-      { mode === 0 ? <Calculator /> : <ReverseCalculator /> }
+    <div>
+      <div className='container'>
+        { mode === 0 ? <Calculator /> : <ReverseCalculator /> }
+      </div>
       <BottomNavigation
         className='bottom-nav'
         value={mode}
