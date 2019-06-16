@@ -12,6 +12,23 @@ const ReverseCalculator = (props) => {
     kg: { 0.5: 0, 1: 0, 1.5: 0, 2: 0, 2.5: 0, 5: 0, 10: 0, 15: 0, 20: 0, 25: 0 },
     lb: { 2.5: 0, 5: 0, 10: 0, 25: 0, 35: 0, 45: 0 }
   }
+  const renderOrder = [
+    { value: 25, unit: 'kg' },
+    { value: 20, unit: 'kg' },
+    { value: 45, unit: 'lb' },
+    { value: 35, unit: 'lb' },
+    { value: 15, unit: 'kg' },
+    { value: 25, unit: 'lb' },
+    { value: 10, unit: 'kg' },
+    { value: 5, unit: 'kg' },
+    { value: 10, unit: 'lb' },
+    { value: 2.5, unit: 'kg' },
+    { value: 5, unit: 'lb' },
+    { value: 1.5, unit: 'kg' },
+    { value: 2.5, unit: 'lb' },
+    { value: 1, unit: 'kg' },
+    { value: 0.5, unit: 'kg' }
+  ]
   const kilos = [0.5, 1, 1.5, 2, 2.5, 5, 10, 15, 20, 25]
   const pounds = [2.5, 5, 10, 25, 35, 45]
   const [ bar, setBar ] = useState(20)
@@ -19,7 +36,7 @@ const ReverseCalculator = (props) => {
   const [ sumKilos, setSumKilos ] = useState(0)
   const [ sumPounds, setSumPounds ] = useState(0)
 
-  const renderPlate = (weight, unit) => {
+  const renderPlateInput = (weight, unit) => {
     return (
       <div className='plate-count' key={weight + unit}>
         <div>
@@ -89,13 +106,90 @@ const ReverseCalculator = (props) => {
     setBar(value)
   }
 
+  const renderPlates = () => {
+    return renderOrder.map((plate) => {
+      let value = plate.value
+      let unit = plate.unit
+      const plateCount = plates[unit][value]
+      const allPlates = []
+      for (let i = 0; i < plateCount; i++) {
+        allPlates.push(renderPlate(value, unit, i))
+      }
+      return allPlates
+    })
+  }
+
+  const renderPlate = (value, unit, key) => {
+    const xl = unit === 'kg' ? [25] : [45]
+    const lg = unit === 'kg' ? [20, 15] : [35, 25]
+    const md = unit === 'kg' ? [10] : [10]
+    const sm = unit === 'kg' ? [5] : [5]
+    const xs = unit === 'kg' ? [2.5, 2, 1.5, 1, 0.5] : [2.5, 1]
+    const red = unit === 'kg' ? [25, 2.5] : [55]
+    const blue = unit === 'kg' ? [20, 2] : [45]
+    const yellow = unit === 'kg' ? [15, 1.5] : [35]
+    const green = unit === 'kg' ? [10, 1] : [25]
+    const white = unit === 'kg' ? [5, 0.5] : []
+    const black = unit === 'kg' ? [] : [10, 5, 2.5, 1]
+    let size = 'xl'
+    let colour = 'white'
+
+    if (xl.includes(value)) {
+      size = 'xl'
+    } else if (lg.includes(value)) {
+      size = 'lg'
+    } else if (md.includes(value)) {
+      size = 'md'
+    } else if (sm.includes(value)) {
+      size = 'sm'
+    } else if (xs.includes(value)) {
+      size = 'xs'
+    }
+    if (red.includes(value)) {
+      colour = 'red'
+    } else if (blue.includes(value)) {
+      colour = 'blue'
+    } else if (yellow.includes(value)) {
+      colour = 'yellow'
+    } else if (green.includes(value)) {
+      colour = 'green'
+    } else if (white.includes(value)) {
+      colour = 'white'
+    } else if (black.includes(value)) {
+      colour = 'black'
+    }
+    return <div className={`${size} ${colour}`} key={key}>
+      {value}<span>{unit}</span>
+    </div>
+  }
+
   return (
     <div>
-      <br />
+      <div id='barbell-diagram'>
+        <div id='handle-area'>
+          <div>
+            <div />
+            <div id='handle' className={bar > 16 ? 'men' : 'women'} />
+            <div />
+          </div>
+          <div>
+            <div /><div /><div />
+          </div>
+        </div>
+        <div id='loading-area'>
+          {renderPlates()}
+          <div className='remainder-bar' />
+          <div className='remainder-space' />
+        </div>
+      </div>
+      <p align='right'>
+        <Button size='small' onClick={() => setPlates(initialPlates)}>Clear barbell</Button>
+      </p>
       <div className='weight-input'>
         <div>
           <TextField
             aria-label='Target weight in kilos'
+            disabled
             label='kilograms'
             type='number'
             name='targetKilo'
@@ -107,6 +201,7 @@ const ReverseCalculator = (props) => {
           <label>
             <TextField
               aria-label='Target weight in pounds'
+              disabled
               label='pounds'
               name='targetLb'
               type='number'
@@ -116,7 +211,6 @@ const ReverseCalculator = (props) => {
           </label>
         </div>
       </div>
-      <Button onClick={() => setPlates(initialPlates)}>Clear barbell</Button>
       <h1>Barbell</h1>
       <FormControlLabel
         value='bottom'
@@ -163,13 +257,13 @@ const ReverseCalculator = (props) => {
         label={'35lb'}
         labelPlacement='bottom'
       />
-      <h1>Kg plates on bar</h1>
+      <h1>Kilo plates on bar</h1>
       <div className='plates-wrapper'>
-        { kilos.map((x) => renderPlate(x, 'kg')) }
+        { kilos.map((x) => renderPlateInput(x, 'kg')) }
       </div>
-      <h1>Lb plates on bar</h1>
+      <h1>Pound plates on bar</h1>
       <div className='plates-wrapper'>
-        { pounds.map((x) => renderPlate(x, 'lb')) }
+        { pounds.map((x) => renderPlateInput(x, 'lb')) }
       </div>
     </div>
   )

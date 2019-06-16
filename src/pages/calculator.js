@@ -183,6 +183,7 @@ const Calculator = (props) => {
     checked: {},
     track: { backgroundColor: pink[500] }
   })(Switch)
+  console.log('hi', targetPlates)
 
   return (
     <div>
