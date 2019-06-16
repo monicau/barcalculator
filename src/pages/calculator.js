@@ -110,7 +110,6 @@ const Calculator = (props) => {
     return targetPlatesResult
   }
   useEffect(() => {
-    console.log('useeffect')
     let targetPlatesResult = []
     if (unit === 'lb') {
       targetPlatesResult = calculatePoundPlates()
@@ -238,7 +237,6 @@ const Calculator = (props) => {
               variant='outlined'
             />
           </label>
-
         </div>
       </div>
       <h1>Barbell</h1>

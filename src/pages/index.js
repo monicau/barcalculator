@@ -14,7 +14,7 @@ const Index = (props) => {
     <div className='container'>
       { mode === 0 ? <Calculator /> : <ReverseCalculator /> }
       <BottomNavigation
-        className='bottomNav'
+        className='bottom-nav'
         value={mode}
         onChange={(event, newValue) => setMode(newValue)}
         showLabels
