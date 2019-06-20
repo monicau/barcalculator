@@ -8,7 +8,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const Index = (props) => {
-  const [ mode, setMode ] = useState(1)
+  const [ mode, setMode ] = useState(0)
 
   return (
     <div>
@@ -18,7 +18,7 @@ const Index = (props) => {
       <BottomNavigation
         className='bottom-nav'
         value={mode}
-        onChange={(event, newValue) => setMode(newValue)}
+        onChange={(event, newValue) => {console.log('HELLOOO', newValue); setMode(newValue)}}
         showLabels
       >
         <BottomNavigationAction label='Barbell Calculator' icon={<IconWeights />} />

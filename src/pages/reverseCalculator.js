@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import IconAdd from '@material-ui/icons/AddCircleOutline'
 import IconRemove from '@material-ui/icons/RemoveCircleOutline'
+import Typography from '@material-ui/core/Typography'
 
 const ReverseCalculator = (props) => {
   const initialPlates = {
@@ -24,6 +25,7 @@ const ReverseCalculator = (props) => {
     { value: 10, unit: 'lb' },
     { value: 2.5, unit: 'kg' },
     { value: 5, unit: 'lb' },
+    { value: 2, unit: 'kg' },
     { value: 1.5, unit: 'kg' },
     { value: 2.5, unit: 'lb' },
     { value: 1, unit: 'kg' },
@@ -165,105 +167,89 @@ const ReverseCalculator = (props) => {
 
   return (
     <div>
-      <div id='barbell-diagram'>
-        <div id='handle-area'>
-          <div>
-            <div />
-            <div id='handle' className={bar > 16 ? 'men' : 'women'} />
-            <div />
+      <div className='sticky-top'>
+        <div id='barbell-diagram'>
+          <div id='handle-area'>
+            <div>
+              <div />
+              <div id='handle' className={bar > 16 ? 'men' : 'women'} />
+              <div />
+            </div>
+            <div>
+              <div /><div /><div />
+            </div>
           </div>
-          <div>
-            <div /><div /><div />
+          <div id='loading-area'>
+            {renderPlates()}
+            <div className='remainder-bar' />
+            <div className='remainder-space' />
           </div>
         </div>
-        <div id='loading-area'>
-          {renderPlates()}
-          <div className='remainder-bar' />
-          <div className='remainder-space' />
-        </div>
-      </div>
-      <p align='right'>
+        <Typography>
+          <strong>Total:</strong>&nbsp;
+          {round(sumKilos)}kg,&nbsp;
+          {round(sumPounds)}lb
+        </Typography>
         <Button size='small' onClick={() => setPlates(initialPlates)}>Clear barbell</Button>
-      </p>
-      <div className='weight-input'>
-        <div>
-          <TextField
-            aria-label='Target weight in kilos'
-            disabled
-            label='kilograms'
-            type='number'
-            name='targetKilo'
-            value={round(sumKilos)}
-            variant='outlined'
-          />
-        </div>
-        <div>
-          <label>
-            <TextField
-              aria-label='Target weight in pounds'
-              disabled
-              label='pounds'
-              name='targetLb'
-              type='number'
-              value={round(sumPounds)}
-              variant='outlined'
-            />
-          </label>
-        </div>
       </div>
-      <h1>Barbell</h1>
-      <FormControlLabel
-        value='bottom'
-        control={<Radio
-          color='primary'
-          name='bar'
-          value={20}
-          onChange={handleInputChange}
-          checked={bar === 20}
-        />}
-        label={'20kg'}
-        labelPlacement='bottom'
-      />
-      <FormControlLabel
-        value='bottom'
-        control={<Radio
-          name='bar'
-          value={20.4117}
-          onChange={handleInputChange}
-          checked={bar === 20.4117}
-        />}
-        label={'45lb'}
-        labelPlacement='bottom'
-      />
-      <FormControlLabel
-        value='bottom'
-        control={<Radio
-          name='bar'
-          value={15}
-          onChange={handleInputChange}
-          checked={bar === 15}
-        />}
-        label={'15kg'}
-        labelPlacement='bottom'
-      />
-      <FormControlLabel
-        value='bottom'
-        control={<Radio
-          name='bar'
-          value={15.8757}
-          onChange={handleInputChange}
-          checked={bar === 15.8757}
-        />}
-        label={'35lb'}
-        labelPlacement='bottom'
-      />
-      <h1>Kilo plates on bar</h1>
-      <div className='plates-wrapper'>
-        { kilos.map((x) => renderPlateInput(x, 'kg')) }
-      </div>
-      <h1>Pound plates on bar</h1>
-      <div className='plates-wrapper'>
-        { pounds.map((x) => renderPlateInput(x, 'lb')) }
+      <div className='reverse-calculator-body'>
+        <h1>Barbell</h1>
+        <FormControlLabel
+          value='bottom'
+          control={<Radio
+            color='primary'
+            name='bar'
+            value={20}
+            onChange={handleInputChange}
+            checked={bar === 20}
+          />}
+          label={'20kg'}
+          labelPlacement='bottom'
+        />
+        <FormControlLabel
+          value='bottom'
+          control={<Radio
+            color='primary'
+            name='bar'
+            value={20.4117}
+            onChange={handleInputChange}
+            checked={bar === 20.4117}
+          />}
+          label={'45lb'}
+          labelPlacement='bottom'
+        />
+        <FormControlLabel
+          value='bottom'
+          control={<Radio
+            color='primary'
+            name='bar'
+            value={15}
+            onChange={handleInputChange}
+            checked={bar === 15}
+          />}
+          label={'15kg'}
+          labelPlacement='bottom'
+        />
+        <FormControlLabel
+          value='bottom'
+          control={<Radio
+            color='primary'
+            name='bar'
+            value={15.8757}
+            onChange={handleInputChange}
+            checked={bar === 15.8757}
+          />}
+          label={'35lb'}
+          labelPlacement='bottom'
+        />
+        <h1>Kilo plates on bar</h1>
+        <div className='plates-wrapper'>
+          { kilos.map((x) => renderPlateInput(x, 'kg')) }
+        </div>
+        <h1>Pound plates on bar</h1>
+        <div className='plates-wrapper'>
+          { pounds.map((x) => renderPlateInput(x, 'lb')) }
+        </div>
       </div>
     </div>
   )

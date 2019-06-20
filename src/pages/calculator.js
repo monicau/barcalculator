@@ -187,7 +187,7 @@ const Calculator = (props) => {
 
   return (
     <div>
-      <div style={{ textAlign: 'right' }}>
+      <div className='unit-toggle'>
        lb
         <CustomSwitch
           checked={unit === 'kg'}

@@ -1,5 +1,13 @@
 body {
   margin: 0;
+  padding: 0;
+}
+.sticky-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: white;
+  z-index: 9999;
 }
 .container {
   width: 100%;
@@ -44,4 +52,7 @@ body {
     align-items: center;
     margin: 1em;
   }
+}
+.reverse-calculator-body {
+  padding-top: 250px;
 }
