@@ -185,12 +185,16 @@ const ReverseCalculator = (props) => {
             <div className='remainder-space' />
           </div>
         </div>
-        <Typography>
-          <strong>Total:</strong>&nbsp;
-          {round(sumKilos)}kg,&nbsp;
-          {round(sumPounds)}lb
-        </Typography>
-        <Button size='small' onClick={() => setPlates(initialPlates)}>Clear barbell</Button>
+        <div className="total-area">
+          <Typography>
+            <h1>
+              Total:&nbsp;
+              <span>{round(sumKilos)}<span>kg</span></span> &nbsp;
+              <span>{round(sumPounds)}<span>lb</span></span>
+            </h1>
+          </Typography>
+          <Button size='large' onClick={() => setPlates(initialPlates)}>Clear barbell</Button>
+        </div>
       </div>
       <div className='reverse-calculator-body'>
         <h1>Barbell</h1>

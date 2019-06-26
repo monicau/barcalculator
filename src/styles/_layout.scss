@@ -8,6 +8,7 @@ body {
   width: 100%;
   background: white;
   z-index: 9999;
+  box-shadow: 0px 0px 10px 0px rgba(224,224,224,1);
 }
 .container {
   width: 100%;
@@ -54,5 +55,10 @@ body {
   }
 }
 .reverse-calculator-body {
-  padding-top: 250px;
+  padding-top: 289px;
+}
+.total-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }

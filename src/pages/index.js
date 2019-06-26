@@ -18,7 +18,7 @@ const Index = (props) => {
       <BottomNavigation
         className='bottom-nav'
         value={mode}
-        onChange={(event, newValue) => {console.log('HELLOOO', newValue); setMode(newValue)}}
+        onChange={(event, newValue) => {setMode(newValue); window.scrollTo(0,0)}}
         showLabels
       >
         <BottomNavigationAction label='Barbell Calculator' icon={<IconWeights />} />
