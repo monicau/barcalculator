@@ -193,7 +193,7 @@ const ReverseCalculator = (props) => {
               <span>{round(sumPounds)}<span>lb</span></span>
             </h1>
           </Typography>
-          <Button size='large' onClick={() => setPlates(initialPlates)}>Clear barbell</Button>
+          <Button onClick={() => setPlates(initialPlates)}>Clear barbell</Button>
         </div>
       </div>
       <div className='reverse-calculator-body'>
