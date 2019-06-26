@@ -183,7 +183,9 @@ const Calculator = (props) => {
     checked: {},
     track: { backgroundColor: pink[500] }
   })(Switch)
-  console.log('hi', targetPlates)
+  const hasSolution = () => {
+    return (targetPlates.length>0 && !isNaN(targetPlates[0]))
+  }
 
   return (
     <div>
@@ -208,8 +210,8 @@ const Calculator = (props) => {
           </div>
         </div>
         <div id='loading-area'>
-          {targetPlates.map((x, i) => renderPlate(x, i))}
-          <div className='remainder-bar' />
+          { hasSolution()? targetPlates.map((x, i) => renderPlate(x, i)) : "" }
+          <div className='remainder-bar'>{ (hasSolution() || targetLb == 0)? "" : "impossible!!" }</div>
           <div className='remainder-space' />
         </div>
       </div>
