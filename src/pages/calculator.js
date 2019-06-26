@@ -59,7 +59,6 @@ const Calculator = (props) => {
   const [ targetPlates, setTargetPlates ] = useState([])
   const [ plates, setPlates ] = useState(initialPlates)
 
-
   const handleInputChange = (event) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
@@ -184,7 +183,7 @@ const Calculator = (props) => {
     track: { backgroundColor: pink[500] }
   })(Switch)
   const hasSolution = () => {
-    return (targetPlates.length>0 && !isNaN(targetPlates[0]))
+    return (targetPlates.length > 0 && !isNaN(targetPlates[0]))
   }
 
   return (
@@ -210,8 +209,8 @@ const Calculator = (props) => {
           </div>
         </div>
         <div id='loading-area'>
-          { hasSolution()? targetPlates.map((x, i) => renderPlate(x, i)) : "" }
-          <div className='remainder-bar'>{ (hasSolution() || targetLb == 0)? "" : "impossible!!" }</div>
+          { hasSolution() ? targetPlates.map((x, i) => renderPlate(x, i)) : '' }
+          <div className='remainder-bar'>{ (hasSolution() || targetLb === '0' || targetKilo === '0') ? '' : 'impossible!!' }</div>
           <div className='remainder-space' />
         </div>
       </div>

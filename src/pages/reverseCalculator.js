@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import TextField from '@material-ui/core/TextField'
 import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import IconButton from '@material-ui/core/IconButton'
@@ -185,7 +184,7 @@ const ReverseCalculator = (props) => {
             <div className='remainder-space' />
           </div>
         </div>
-        <div className="total-area">
+        <div className='total-area'>
           <Typography>
             <h1>
               Total:&nbsp;
