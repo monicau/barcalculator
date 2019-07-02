@@ -183,7 +183,7 @@ const Calculator = (props) => {
     track: { backgroundColor: pink[500] }
   })(Switch)
   const hasSolution = () => {
-    return (targetPlates.length > 0 && !isNaN(targetPlates[0]))
+    return (targetPlates.length > 0 && !targetPlates.includes(NaN))
   }
 
   return (
