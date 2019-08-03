@@ -189,13 +189,13 @@ const Calculator = (props) => {
   return (
     <div>
       <div className='unit-toggle'>
-       lb
+       pound
         <CustomSwitch
           checked={unit === 'kg'}
           onChange={toggleUnit}
           value={unit}
         />
-        kg
+        kilo
       </div>
       <div id='barbell-diagram'>
         <div id='handle-area'>

@@ -9,6 +9,7 @@ This web app has 2 calculators:
 
 - Choice between men's and women's bar
 - Supports both kilo and pounds!!
+- Available offline on your phone
 
 ## Continuous Deployment
 
