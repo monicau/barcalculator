@@ -10,29 +10,35 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import Settings from './settings'
 
 const Index = (props) => {
-  const [ mode, setMode ] = useState(0)
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [ mode, setMode ] = useState(3)
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [ competitionMode, setCompetitionMode ] = useState(false)
 
-  const open = Boolean(anchorEl);
+  const open = Boolean(anchorEl)
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = (event) => {
+    setAnchorEl(null)
   }
-
-  const options = [
-    'Settings',
-    'About',
-  ];
+  const page = () => {
+    if (mode === 0) {
+      return <Calculator />
+    } else if (mode === 1) {
+      return <ReverseCalculator />
+    } else if (mode === 3) {
+      return <Settings competitionMode={competitionMode} setCompetitionMode={setCompetitionMode} />
+    }
+  }
   return (
     <div>
       <div className='container'>
-        { mode === 0 ? <Calculator /> : <ReverseCalculator /> }
+        { page() }
       </div>
       <BottomNavigation
         className='bottom-nav'
@@ -42,7 +48,8 @@ const Index = (props) => {
       >
         <BottomNavigationAction label='Barbell Calculator' icon={<IconWeights />} />
         <BottomNavigationAction label="What's on my bar??" icon={<IconReverse />} />
-        <div>
+      </BottomNavigation>
+      <div>
         <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
           <MoreVertIcon />
         </IconButton>
@@ -53,11 +60,10 @@ const Index = (props) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Settings</MenuItem>
-          <MenuItem onClick={handleClose}>Changelog</MenuItem>
+          <MenuItem id='about' onClick={handleClose}>About</MenuItem>
+          <MenuItem id='settings' onClick={handleClose}>Settings</MenuItem>
         </Menu>
       </div>
-      </BottomNavigation>
     </div>
   )
 }
