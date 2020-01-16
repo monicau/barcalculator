@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Calculator from './calculator'
-import ReverseCalculator from './reverseCalculator'
+import Calculator from '../components/calculator'
+import ReverseCalculator from '../components/reverseCalculator'
 import '../styles/main.scss'
 import IconWeights from '@material-ui/icons/FitnessCenter'
 import IconReverse from '@material-ui/icons/AccessibilityNew'
