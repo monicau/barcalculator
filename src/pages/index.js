@@ -11,9 +11,9 @@ import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
-const Index = (props) => {
+export default ( ) => {
   const [ mode, setMode ] = useState(0)
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
 
@@ -61,4 +61,3 @@ const Index = (props) => {
     </div>
   )
 }
-export default Index

@@ -1,16 +1,6 @@
-// // denominations
-// var d = [0.5, 1, 1.5, 2, 2.5, 5, 10, 15, 20, 25, 50];
-// // multiply by 10 to have whole numbers
-// d = d.map((v)=>v*10);
-// // value
-// var v = 20.5*10;
-
-// console.log(change(d,v).map((v)=>v/10));
-
-export function findKiloPlates (denoms, value, bar) {
-  console.log(denoms, value, bar);
+export default (denoms, value, bar) => {
   // Remove decimals by multiplying by 10
-  denoms = denoms.map((x) => x * 10)
+  denoms = denoms.map(x => x * 10)
   value = (value - bar) * 10 / 2.0
   // c[p] = minimum # of coins for p cents
   var c = []
@@ -36,8 +26,7 @@ export function findKiloPlates (denoms, value, bar) {
       s[p] = minS
     }
   }
-  // console.log(c)
-  // console.log(s)
+
   // List of changes
   var changes = []
   while (value > 0) {

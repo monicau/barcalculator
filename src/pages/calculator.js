@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { findKiloPlates } from '../kilo'
-import { findPoundPlates } from '../pound'
+import findPlates from '../utils/findPlates'
 import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
@@ -99,13 +98,13 @@ const Calculator = (props) => {
   const calculateKiloPlates = () => {
     const barWeight = bar === 'men' ? 20 : 15
     const kiloPlateValues = (kiloPlatesDict.filter((item) => plates[item.id]).map((item) => item.value))
-    const targetPlatesResult = (findKiloPlates(kiloPlateValues, targetKilo, barWeight))
+    const targetPlatesResult = (findPlates(kiloPlateValues, targetKilo, barWeight))
     return targetPlatesResult
   }
   const calculatePoundPlates = () => {
     const barWeight = bar === 'men' ? 45 : 35
     const poundPlateValues = (poundPlatesDict.filter((item) => plates[item.id]).map((item) => item.value))
-    const targetPlatesResult = (findPoundPlates(poundPlateValues, targetLb, barWeight))
+    const targetPlatesResult = (findPlates(poundPlateValues, targetLb, barWeight))
     return targetPlatesResult
   }
   useEffect(() => {
