@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  dev:
+    image: jana19/node:development
+    container_name: barcalculator-dev
+    user: 1000:1000
+    working_dir: /app
+    volumes:
+      - ./:/app:delegated
+    ports:
+      - 127.0.0.1:8000:8000
+    command: sh -c "yarn && yarn develop"
