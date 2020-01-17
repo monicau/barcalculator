@@ -13,8 +13,9 @@ import {
 import { withStyles } from '@material-ui/core/styles'
 
 import findPlates from '../utils/findPlates'
+import PlateRenderer from './PlateRenderer'
 
-const Calculator = (props) => {
+const Calculator = () => {
   const initialPlates = {
     kilo_zeroFive: true,
     kilo_one: true,
@@ -213,7 +214,14 @@ const Calculator = (props) => {
           </div>
         </div>
         <div id='loading-area'>
-          { hasSolution() ? targetPlates.map((x, i) => renderPlate(x, i)) : '' }
+          { hasSolution()
+            ? targetPlates.map((x, i) => <PlateRenderer
+              key={i}
+              value={x}
+              unit={unit}
+            />)
+            : ''
+          }
           <div className='remainder-bar'>{ (hasSolution() || targetLb === '0' || targetKilo === '0') ? '' : 'impossible!!' }</div>
           <div className='remainder-space' />
         </div>
