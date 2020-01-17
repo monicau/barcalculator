@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import findPlates from '../utils/findPlates'
-import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Radio from '@material-ui/core/Radio'
-import Checkbox from '@material-ui/core/Checkbox'
-import Switch from '@material-ui/core/Switch'
+import {
+  TextField,
+  FormControlLabel,
+  Radio,
+  Checkbox,
+  Switch
+} from '@material-ui/core'
+import {
+  pink,
+  indigo
+} from '@material-ui/core/colors'
 import { withStyles } from '@material-ui/core/styles'
-import pink from '@material-ui/core/colors/pink'
-import indigo from '@material-ui/core/colors/indigo'
+
+import findPlates from '../utils/findPlates'
 
 const Calculator = (props) => {
   const initialPlates = {

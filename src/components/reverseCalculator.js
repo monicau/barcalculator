@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import Radio from '@material-ui/core/Radio'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import IconButton from '@material-ui/core/IconButton'
-import Button from '@material-ui/core/Button'
-import IconAdd from '@material-ui/icons/AddCircleOutline'
-import IconRemove from '@material-ui/icons/RemoveCircleOutline'
-import Typography from '@material-ui/core/Typography'
+import {
+  Radio,
+  FormControlLabel,
+  IconButton,
+  Button,
+  Typography
+} from '@material-ui/core'
+import {
+  AddCircleOutline as IconAdd,
+  RemoveCircleOutline as IconRemove
+} from '@material-ui/icons'
 
 const ReverseCalculator = (props) => {
   const initialPlates = {
