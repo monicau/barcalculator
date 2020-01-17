@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  IconButton,
+  Menu,
+  MenuItem
+} from '@material-ui/core'
+import {
+  MoreVert as MoreVertIcon,
+  FitnessCenter as IconWeights,
+  AccessibilityNew as IconReverse
+} from '@material-ui/icons'
+
 import Calculator from '../components/calculator'
 import ReverseCalculator from '../components/reverseCalculator'
+
 import '../styles/main.scss'
-import IconWeights from '@material-ui/icons/FitnessCenter'
-import IconReverse from '@material-ui/icons/AccessibilityNew'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import IconButton from '@material-ui/core/IconButton'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
 
 export default ( ) => {
   const [ mode, setMode ] = useState(0)
