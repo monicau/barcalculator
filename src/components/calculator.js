@@ -13,7 +13,9 @@ import {
 import { withStyles } from '@material-ui/core/styles'
 
 import findPlates from '../utils/findPlates'
-import PlateRenderer from './PlateRenderer'
+import PlateRenderer from './common/PlateRenderer'
+import BarbellHandleArea from './common/BarbellHandleArea'
+
 
 const BARBELL = {
   'men': { 'kg': 20, 'lb': 45 },
@@ -97,22 +99,10 @@ export default () => {
         kilo
       </div>
       <div id='barbell-diagram'>
-        <div id='handle-area'>
-          <div>
-            <div />
-            <div id='handle' className={activeBar} />
-            <div />
-          </div>
-          <div>
-            <div /><div /><div />
-          </div>
-        </div>
+        <BarbellHandleArea bar={activeBar} />
         <div id='loading-area'>
-          { hasSolution ? targetPlates.map((x, i) => <PlateRenderer
-              key={i}
-              value={x}
-              unit={unit}
-            />)
+          { hasSolution ? targetPlates.map((x, i) =>
+            <PlateRenderer key={i} value={x} unit={unit} />)
             : ''
           }
           <div className='remainder-bar'>

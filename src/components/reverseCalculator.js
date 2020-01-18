@@ -10,7 +10,8 @@ import {
   RemoveCircleOutline as IconRemove
 } from '@material-ui/icons'
 
-import PlateRenderer from './PlateRenderer'
+import PlateRenderer from './common/PlateRenderer'
+import BarbellHandleArea from './common/BarbellHandleArea'
 
 const renderOrder = [
   '25kg', '20kg', '45lb', '35lb', '15kg', '25lb', '10kg', '5kg',
@@ -87,11 +88,7 @@ export default () => {
     const plateCount = plates[plate]
     const allPlates = []
     for (let i = 0; i < plateCount; i++) {
-      allPlates.push(<PlateRenderer
-        key={i}
-        value={+value}
-        unit={unit}
-      />)
+      allPlates.push(<PlateRenderer key={i} value={+value} unit={unit} />)
     }
     return allPlates
   }
@@ -100,16 +97,7 @@ export default () => {
     <div>
       <div className='sticky-top'>
         <div id='barbell-diagram'>
-          <div id='handle-area'>
-            <div>
-              <div />
-              <div id='handle' className={bar > 16 ? 'men' : 'women'} />
-              <div />
-            </div>
-            <div>
-              <div /><div /><div />
-            </div>
-          </div>
+          <BarbellHandleArea bar={bar > 16 ? 'men' : 'women'} />
           <div id='loading-area'>
             {renderOrder.map(renderPlates)}
             <div className='remainder-bar' />
@@ -129,8 +117,9 @@ export default () => {
       </div>
       <div className='reverse-calculator-body'>
         <h1>Barbell</h1>
-        {['20kg', '45lb', '15kg', '35lb'].map(label => {
-          const value = +label.split(/([0-9.]+)/)[1]
+        {Object.entries({
+          '20kg': 20, '45lb': 20.4117, '15kg': 15, '35lb': 15.8757
+        }).map(([label, value]) => {
           return <FormControlLabel
             key={label}
             value='bottom'
