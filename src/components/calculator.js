@@ -137,19 +137,17 @@ export default () => {
           />
         </div>
         <div>
-          <label>
-            <TextField
-              aria-label='Target weight in pounds'
-              label='pounds'
-              name='targetLb'
-              type='number'
-              variant='outlined'
-              value={targetLb}
-              onChange={event =>
-                { setTargetLb(event.target.value); setTargetKilo(toKilo(event.target.value)) }
-              }
-            />
-          </label>
+          <TextField
+            aria-label='Target weight in pounds'
+            label='pounds'
+            name='targetLb'
+            type='number'
+            variant='outlined'
+            value={targetLb}
+            onChange={event =>
+              { setTargetLb(event.target.value); setTargetKilo(toKilo(event.target.value)) }
+            }
+          />
         </div>
       </div>
       <h1>Barbell</h1>
