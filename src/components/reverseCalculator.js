@@ -3,7 +3,7 @@ import {
   Radio,
   FormControlLabel,
   IconButton,
-  Button,
+  Button
 } from '@material-ui/core'
 import {
   AddCircleOutline as IconAdd,

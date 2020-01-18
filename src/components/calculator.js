@@ -66,10 +66,12 @@ export default () => {
     />
 
   const toKilo = target => Math.round(target / 2.2046)
-
   const toPound = target => Math.round(target * 2.2046)
 
   const toggleUnit = () => setUnit(unit === 'kg' ? 'lb' : 'kg')
+
+  const hasSolution = targetPlates.length > 0 &&
+    !targetPlates.includes(NaN) && targetLb !== '0' && targetKilo !== '0'
 
   const CustomSwitch = withStyles({
     switchBase: {
@@ -84,8 +86,6 @@ export default () => {
     checked: {},
     track: { backgroundColor: pink[500] }
   })(Switch)
-
-  const hasSolution = targetPlates.length > 0 && !targetPlates.includes(NaN)
 
   return (
     <div>
@@ -106,7 +106,7 @@ export default () => {
             : ''
           }
           <div className='remainder-bar'>
-            { (hasSolution || targetLb === '0' || targetKilo === '0') ? '' : 'impossible!!' }
+            {hasSolution ? '' : 'impossible!!'}
           </div>
           <div className='remainder-space' />
         </div>
@@ -117,13 +117,14 @@ export default () => {
           <TextField
             aria-label='Target weight in kilos'
             label='kilograms'
-            type='number'
             name='targetKilo'
+            type='number'
             variant='outlined'
             value={targetKilo}
-            onChange={event => 
-              { setTargetKilo(event.target.value); setTargetLb(toPound(event.target.value)) }
-            }
+            onChange={event => {
+              setTargetKilo(event.target.value)
+              setTargetLb(toPound(event.target.value))
+            }}
           />
         </div>
         <div>
@@ -134,15 +135,16 @@ export default () => {
             type='number'
             variant='outlined'
             value={targetLb}
-            onChange={event =>
-              { setTargetLb(event.target.value); setTargetKilo(toKilo(event.target.value)) }
-            }
+            onChange={event => {
+              setTargetLb(event.target.value)
+              setTargetKilo(toKilo(event.target.value))
+            }}
           />
         </div>
       </div>
       <h1>Barbell</h1>
-      {Object.entries(BARBELL)
-        .map(([bar, values]) => <FormControlLabel
+      {Object.entries(BARBELL).map(([bar, values]) =>
+        <FormControlLabel
           key={bar}
           value='bottom'
           label={`${values[unit]}${unit}`}
