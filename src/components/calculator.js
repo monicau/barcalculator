@@ -26,8 +26,8 @@ export default () => {
   // Set states
   const [ unit, setUnit ] = useState('kg')
   const [ activeBar, setActiveBar ] = useState('men')
-  const [ targetKilo, setTargetKilo ] = useState('0')
-  const [ targetLb, setTargetLb ] = useState('0')
+  const [ targetKilo, setTargetKilo ] = useState(0)
+  const [ targetLb, setTargetLb ] = useState(0)
   const [ targetPlates, setTargetPlates ] = useState([])
   const [ availablePlates, setAvailablePlates ] = useState({
     '0.5kg': true, '1kg': true, '1.5kg': true, '2kg': true,
@@ -42,7 +42,8 @@ export default () => {
     const plateValues = Object.keys(availablePlates)
       .filter(plate => plate.includes(unit) && availablePlates[plate])
       .map(plate => +plate.split(/([0-9.]+)/)[1])
-    const targetPlatesResult = findPlates(plateValues, targetLb, barWeight)
+    const targetWeight = unit === 'kg'? targetKilo : targetLb
+    const targetPlatesResult = findPlates(plateValues, targetWeight, barWeight)
     setTargetPlates(targetPlatesResult)
   }, [targetKilo, targetLb, availablePlates, unit, activeBar])
 
@@ -70,8 +71,8 @@ export default () => {
 
   const toggleUnit = () => setUnit(unit === 'kg' ? 'lb' : 'kg')
 
-  const hasSolution = targetPlates.length > 0 &&
-    !targetPlates.includes(NaN) && targetLb !== '0' && targetKilo !== '0'
+  const hasSolution = (targetPlates.length > 0 &&
+    !targetPlates.includes(NaN)) || (!targetLb && !targetKilo)
 
   const CustomSwitch = withStyles({
     switchBase: {
